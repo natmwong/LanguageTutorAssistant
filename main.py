@@ -1,13 +1,14 @@
 import flet as ft
 import json
-
-def show_json(obj):
-    display(json.loads(obj.model_dump_json()))
+from assistant import TutorAssistant
 
 def main(page: ft.Page):
     page.title = "Chat app example"
     chat = ft.Column()
     new_message = ft.TextField()
+
+    # Creating Language Tutor Assistant
+    languageTutor = TutorAssistant()
 
     def send_click(e):
         chat.controls.append(ft.Text(new_message.value))
