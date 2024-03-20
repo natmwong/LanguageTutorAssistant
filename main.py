@@ -1,5 +1,4 @@
 import flet as ft
-from openai import OpenAI
 import json
 
 def show_json(obj):
