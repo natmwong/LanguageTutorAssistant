@@ -11,9 +11,6 @@ class TutorAssistant:
     def __init__(self):  
         # Hardcoded ids created previously
         self.assistant_id = "asst_gunNdPVu1FxCBxklTFA8EVq5"
-        # self.thread_id = "thread_7EcmmSbdRJCxtTb3z5TOWWJ8"
-        self.thread= client.beta.threads.create()
-        self.thread_id = self.thread.id
 
 
         '''
@@ -36,47 +33,47 @@ class TutorAssistant:
         '''
 
     # Retrieve prompt/content from user and generate a response
-    def submit_prompt(self, prompt):
-
-        # Tells if the Assistant has completed processing the request
-        def wait_on_run(run):
-            while run.status == "queued" or run.status == "in_progress":
-                run = client.beta.threads.runs.retrieve(
-                    thread_id=self.thread_id,
-                    run_id=run.id,
-                )
-                time.sleep(0.5)
-            return run
+    def submit_prompt(self, thread, prompt):
         
         # Create a message to append to the thread
-        message = client.beta.threads.messages.create(
-            thread_id=self.thread_id,
+        client.beta.threads.messages.create(
+            thread_id=thread.id,
             role="user",
             content=prompt
         )
 
         # Execute the run
-        run = client.beta.threads.runs.create(
-            thread_id=self.thread_id,
+        return client.beta.threads.runs.create(
+            thread_id=thread.id,
             assistant_id=self.assistant_id,
         )
 
-        # Wait for completion
-        wait_on_run(run)
-
-        return run
+    # Creates a new thread and run
+    def create_thread_and_run(self, user_input):
+        thread = client.beta.threads.create()
+        run = self.submit_prompt(thread, user_input)
+        return thread, run
 
     # Returns the list of Messages in a Thread
-    def get_messages(self):
-        return client.beta.threads.messages.list(thread_id=self.thread_id, order="asc")
+    def get_messages(self, thread):
+        return client.beta.threads.messages.list(thread_id=thread.id, order="asc")
     
-    # Pretty printing helpe
+    # Pretty printing help
     def pretty_print(self, messages):
-        print("# Messages")
         for m in messages:
             print(f"{m.role}: {m.content[0].text.value}")
         print()
 
+    # Tells if the Assistant has completed processing the request
+    def wait_on_run(self, run, thread):
+        while run.status == "queued" or run.status == "in_progress":
+            run = client.beta.threads.runs.retrieve(
+                thread_id=thread.id,
+                run_id=run.id,
+            )
+            time.sleep(0.5)
+        return run
+
     # Return the chat messages of the user's prompt and the Assistant's response
-    def get_response(self):
-        return self.pretty_print(self.get_messages())
+    def get_response(self, thread):
+        return self.pretty_print(self.get_messages(thread))

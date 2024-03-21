@@ -20,11 +20,12 @@ def main(page: ft.Page):
         prompt = new_message.value
 
         # Generate response back from the prompt
-        run = languageTutor.submit_prompt(prompt)
+        thread, run = languageTutor.create_thread_and_run(prompt)
+        run = languageTutor.wait_on_run(run, thread)
 
 
         # Return tutor's response
-        chat.controls.append(ft.Text(languageTutor.get_response()))
+        chat.controls.append(ft.Text(languageTutor.get_response(thread)))
 
         # Reset text field and update page
         new_message.value = ""
