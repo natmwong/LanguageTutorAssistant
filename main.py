@@ -16,13 +16,19 @@ def main(page: ft.Page):
     languageTutor = TutorAssistant()
 
     def send_click(e):
-        chat.controls.append(ft.Text(new_message.value))
+        # Get user prompt
+        prompt = new_message.value
+
+        # Generate response back from the prompt
+        run = languageTutor.submit_prompt(prompt)
+
+
+        # Return tutor's response
+        chat.controls.append(ft.Text(languageTutor.get_response()))
+
+        # Reset text field and update page
         new_message.value = ""
         page.update()
-
-        #get user prompt
-        #generate response from the prompt
-        #broadcast the tutor's response back to the user
         
 
     page.add(

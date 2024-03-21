@@ -1,22 +1,19 @@
 import openai
 from dotenv import find_dotenv, load_dotenv
 import time
-import json
-import os
-
-def show_json(obj):
-    print(json.loads(obj.model_dump_json()))
 
 # Retrieve API key
 load_dotenv
 
-client = openai.OpenAI()
+client = openai.OpenAI(api_key="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")
 
 class TutorAssistant:
     def __init__(self):  
         # Hardcoded ids created previously
         self.assistant_id = "asst_gunNdPVu1FxCBxklTFA8EVq5"
-        self.thread_id = "thread_7EcmmSbdRJCxtTb3z5TOWWJ8"
+        # self.thread_id = "thread_7EcmmSbdRJCxtTb3z5TOWWJ8"
+        self.thread= client.beta.threads.create()
+        self.thread_id = self.thread.id
 
 
         '''
@@ -39,34 +36,47 @@ class TutorAssistant:
         '''
 
     # Retrieve prompt/content from user and generate a response
-    def generate_response(self, content):
+    def submit_prompt(self, prompt):
 
         # Tells if the Assistant has completed processing the request
         def wait_on_run(run):
             while run.status == "queued" or run.status == "in_progress":
                 run = client.beta.threads.runs.retrieve(
-                    thread_id=self.thread.id,
+                    thread_id=self.thread_id,
                     run_id=run.id,
                 )
                 time.sleep(0.5)
             return run
-
+        
         # Create a message to append to the thread
         message = client.beta.threads.messages.create(
-            thread_id=self.thread.id,
+            thread_id=self.thread_id,
             role="user",
-            content=content
+            content=prompt
         )
 
         # Execute the run
         run = client.beta.threads.runs.create(
-            thread_id=self.thread.id,
+            thread_id=self.thread_id,
             assistant_id=self.assistant_id,
         )
 
         # Wait for completion
         wait_on_run(run)
 
+        return run
+
     # Returns the list of Messages in a Thread
+    def get_messages(self):
+        return client.beta.threads.messages.list(thread_id=self.thread_id, order="asc")
+    
+    # Pretty printing helpe
+    def pretty_print(self, messages):
+        print("# Messages")
+        for m in messages:
+            print(f"{m.role}: {m.content[0].text.value}")
+        print()
+
+    # Return the chat messages of the user's prompt and the Assistant's response
     def get_response(self):
-        return client.beta.threads.messages.list(thread_id=self.thread.id, order="asc")
+        return self.pretty_print(self.get_messages())
