@@ -60,9 +60,10 @@ class TutorAssistant:
     
     # Pretty printing help
     def pretty_print(self, messages):
+        result = ""
         for m in messages:
-            print(f"{m.role}: {m.content[0].text.value}")
-        print()
+            result += f"{m.role}: {m.content[0].text.value}\n"
+        return result
 
     # Tells if the Assistant has completed processing the request
     def wait_on_run(self, run, thread):
