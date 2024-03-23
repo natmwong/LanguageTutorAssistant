@@ -5,7 +5,7 @@ import time
 # Retrieve API key
 load_dotenv
 
-client = openai.OpenAI(api_key="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")
+client = openai.OpenAI()
 
 class TutorAssistant:
     def __init__(self):  
@@ -58,7 +58,7 @@ class TutorAssistant:
     def get_messages(self, thread):
         return client.beta.threads.messages.list(thread_id=thread.id, order="asc")
     
-    # Pretty printing help
+    # Print the user's role with their prompt and the assistant's role with the response
     def pretty_print(self, messages):
         result = ""
         for m in messages:
