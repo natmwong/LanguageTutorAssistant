@@ -11,6 +11,8 @@ class ChatMessage(ft.Row):
     def __init__(self, message: Message):
         super().__init__()
         self.vertical_alignment="start"
+        self.width="page.window_width"
+        self.expand=True
         self.controls=[
                 ft.CircleAvatar(
                     content=ft.Text(self.get_initials(message.role)),
@@ -23,7 +25,8 @@ class ChatMessage(ft.Row):
                         ft.Text(message.text, selectable=True),
                     ],
                     tight=True,
-                    spacing=5,
+                    spacing=1,
+                    expand=True,
                 ),
             ]
 
@@ -51,8 +54,21 @@ class ChatMessage(ft.Row):
 
 def main(page: ft.Page):
     page.title = "Language Tutor Assistant Chat"
-    chat = ft.Column()
-    new_message = ft.TextField()
+    page.horizontal_alignment = "stretch"
+    chat = ft.ListView(
+        spacing=10,
+        auto_scroll=True,
+        expand=True,
+    )
+    new_message = ft.TextField(
+        hint_text="Message your Language Tutor Assistant here...",
+        autofocus=True,
+        shift_enter=True,
+        min_lines=1,
+        max_lines=5,
+        filled=True,
+        expand=True,
+    )
 
     # Creating Language Tutor Assistant
     languageTutor = TutorAssistant()
@@ -84,8 +100,25 @@ def main(page: ft.Page):
         page.update()
         
 
+    # Add everything to the page
     page.add(
-        chat, ft.Row(controls=[new_message, ft.ElevatedButton("Send", on_click=send_click)])
+        ft.Container(
+            content=chat,
+            border=ft.border.all(1, ft.colors.OUTLINE),
+            border_radius=5,
+            padding=10,
+            expand=True,
+        ),
+        ft.Row(
+            [
+                new_message,
+                ft.IconButton(
+                    icon=ft.icons.SEND_ROUNDED,
+                    tooltip="Send Message",
+                    on_click=send_click,
+                ),
+            ]
+        ),
     )
 
 ft.app(target=main)
