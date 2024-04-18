@@ -74,7 +74,7 @@ class TutorAssistant:
         message = ""
         for m in messages:
             if m.role == "user":
-                role += "User"
+                role += "You"
                 message += f"{m.content[0].text.value}"
         return role, message
     

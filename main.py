@@ -72,9 +72,11 @@ def main(page: ft.Page):
         assistRole, assistMsg = languageTutor.get_assistMsg(languageTutor.get_messages(thread))
         assistMessage = Message(assistRole, assistMsg)
         #add user Message to chat
-        chat.controls.append(ft.Text(f"{userMessage.role}: {userMessage.text}"))
+        userChat = ChatMessage(userMessage)
+        chat.controls.append(userChat)
         #add assistant Message to chat
-        chat.controls.append(ft.Text(f"{assistMessage.role}: {assistMessage.text}"))
+        assistChat = ChatMessage(assistMessage)
+        chat.controls.append(assistChat)
 
 
         # Reset text field and update page
