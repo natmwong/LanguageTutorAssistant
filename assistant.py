@@ -62,8 +62,31 @@ class TutorAssistant:
     def pretty_print(self, messages):
         result = ""
         for m in messages:
-            result += f"{m.role}: {m.content[0].text.value}\n"
+            if m.role == "user":
+                result += f"User: {m.content[0].text.value}\n"
+            else:
+                result += f"Assistant: {m.content[0].text.value}\n"
         return result
+    
+    # Return the role and message of the user
+    def get_userMsg(self, messages):
+        role = ""
+        message = ""
+        for m in messages:
+            if m.role == "user":
+                role += "User"
+                message += f"{m.content[0].text.value}"
+        return role, message
+    
+    # Return the role and message of the assistant
+    def get_assistMsg(self, messages):
+        role = ""
+        message = ""
+        for m in messages:
+            if m.role == "assistant":
+                role += "Assistant"
+                message += f"{m.content[0].text.value}"
+        return role, message
 
     # Tells if the Assistant has completed processing the request
     def wait_on_run(self, run, thread):

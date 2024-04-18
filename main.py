@@ -3,8 +3,9 @@ import json
 from assistant import TutorAssistant
 
 class Message():
-    def __init__(self, prompt: str):
-        self.prompt = prompt
+    def __init__(self, role: str, text: str):
+        self.role = role
+        self.text = text
 
 
 def main(page: ft.Page):
@@ -23,9 +24,17 @@ def main(page: ft.Page):
         thread, run = languageTutor.create_thread_and_run(prompt)
         run = languageTutor.wait_on_run(run, thread)
 
+        #create a new user Message from entered prompt
+        userRole, userMsg = languageTutor.get_userMsg(languageTutor.get_messages(thread))
+        userMessage = Message(userRole, userMsg)
+        #create a new assistant Message
+        assistRole, assistMsg = languageTutor.get_assistMsg(languageTutor.get_messages(thread))
+        assistMessage = Message(assistRole, assistMsg)
+        #add user Message to chat
+        chat.controls.append(ft.Text(f"{userMessage.role}: {userMessage.text}"))
+        #add assistant Message to chat
+        chat.controls.append(ft.Text(f"{assistMessage.role}: {assistMessage.text}"))
 
-        # Return tutor's response
-        chat.controls.append(ft.Text(languageTutor.get_response(thread)))
 
         # Reset text field and update page
         new_message.value = ""
