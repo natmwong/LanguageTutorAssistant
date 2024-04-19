@@ -26,6 +26,8 @@ We are constantly working to improve the Language Tutor Assistant. Future improv
 
 There was a fair bit of difficulty for me to figure out how to access the user and assistant messages separately so they could be displayed on the chat page. I figured I would have to create two functions: 1) get_userMsg() and 2) get_assistMsg(). These functions would allow me to retrieve the role and text held in those Messages and display them on the UI.
 
+Another challenge in developing this project was prompt engineering. Generating the proper responses that the user would need for language learning requires delicate formulation of the instructions given to the Assistant to carry out.
+
 ## License
 
     Copyright [2024] [Natasha Wong]
