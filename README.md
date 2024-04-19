@@ -18,6 +18,10 @@ To use the Language Tutor Assistant, simply start a conversation with the chatbo
 
 Here is a walkthrough of implemented stories:
 
+<img src='https://github.com/natmwong/LanguageTutorAssistant/blob/main/LanguageTutorAssistantDemo.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+
+GIF created with [ScreenToGif](https://www.screentogif.com/) for Windows
+
 ## Future Improvements
 
 We are constantly working to improve the Language Tutor Assistant. Future improvements include file retrieval study material, improving the accuracy of language proficiency tracking, and adding more user preferences.
