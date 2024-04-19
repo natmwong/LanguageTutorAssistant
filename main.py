@@ -67,6 +67,7 @@ def main(page: ft.Page):
     )
     # Text field for user input
     new_message = ft.TextField(
+        disabled=False,
         hint_text="Message your Language Tutor Assistant here...",
         autofocus=True,
         shift_enter=True,
@@ -74,7 +75,7 @@ def main(page: ft.Page):
         max_lines=5,
         filled=True,
         expand=True,
-        on_submit=lambda e: send_click(e),
+        on_submit=lambda e: send_message(e),
     )
 
     # Joining the chat function
@@ -98,9 +99,12 @@ def main(page: ft.Page):
     # Creating Language Tutor Assistant
     languageTutor = TutorAssistant()
 
-    def send_click(e):
-        # Get user prompt
+    def send_message(e):
+        # Get user prompt from text field, reset it, and disable it
         prompt = new_message.value
+        new_message.value = ""
+        new_message.disabled = True
+        page.update()
 
         # Generate response back from the prompt
         thread, run = languageTutor.create_thread_and_run(prompt)
@@ -120,8 +124,9 @@ def main(page: ft.Page):
         chat.controls.append(assistChat)
 
 
-        # Reset text field and update page
-        new_message.value = ""
+
+        # Enable the text field for the user to send another message
+        new_message.disabled = False
         page.update()
         
 
@@ -140,7 +145,7 @@ def main(page: ft.Page):
                 ft.IconButton(
                     icon=ft.icons.SEND_ROUNDED,
                     tooltip="Send Message",
-                    on_click=send_click,
+                    on_click=send_message,
                 ),
             ]
         ),
