@@ -2,11 +2,13 @@ import flet as ft
 import json
 from assistant import TutorAssistant
 
+# Message class to store the role and text of the message
 class Message():
     def __init__(self, role: str, text: str):
         self.role = role
         self.text = text
 
+# ChatMessage class to display the avatar, role, and message in the chat
 class ChatMessage(ft.Row):
     def __init__(self, message: Message):
         super().__init__()
@@ -30,9 +32,11 @@ class ChatMessage(ft.Row):
                 ),
             ]
 
+    # Get the initials of the user's name
     def get_initials(self, user_name: str):
         return user_name[:1].capitalize()
 
+    # Get the color of the avatar based on the user's name
     def get_avatar_color(self, user_name: str):
         colors_lookup = [
             ft.colors.AMBER,
@@ -54,11 +58,14 @@ class ChatMessage(ft.Row):
 def main(page: ft.Page):
     page.title = "Language Tutor Assistant Chat"
     page.horizontal_alignment = "stretch"
+
+    # Chat window to display messages
     chat = ft.ListView(
         spacing=10,
         auto_scroll=True,
         expand=True,
     )
+    # Text field for user input
     new_message = ft.TextField(
         hint_text="Message your Language Tutor Assistant here...",
         autofocus=True,
