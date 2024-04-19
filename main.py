@@ -70,6 +70,24 @@ def main(page: ft.Page):
         expand=True,
     )
 
+    # Joining the chat function
+    def join_click(e):
+        page.dialog.open = False
+        welcomeMessage = Message("Assistant", "Hello! I am your personalized language learning assistant. Please start off by telling me the language you want to learn, your experience in the language, possible points for improvement, and your intended goals such as learning more vocabulary or improving reading. I can then generate exercises, provide feedback, and suggest tailored curriculum based on your proficiency level and learning goals. How can I help you today?")
+        welcomeChat = ChatMessage(welcomeMessage)
+        chat.controls.append(welcomeChat)
+        page.update()
+
+    # Wecome the user with a pop up dialog
+    page.dialog = ft.AlertDialog(
+        open=True,
+        modal=True,
+        title=ft.Text("Welcome to the Language Tutor Assistant!"),
+        actions=[ft.ElevatedButton(text="Get started", on_click=join_click)],
+        actions_alignment="end",
+    )
+
+
     # Creating Language Tutor Assistant
     languageTutor = TutorAssistant()
 
