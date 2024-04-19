@@ -22,7 +22,7 @@ class ChatMessage(ft.Row):
                 ft.Column(
                     [
                         ft.Text(message.role, weight="bold"),
-                        ft.Text(message.text, selectable=True),
+                        ft.Text(message.text, selectable=True, size=17),
                     ],
                     tight=True,
                     spacing=1,
@@ -47,7 +47,6 @@ class ChatMessage(ft.Row):
             ft.colors.PURPLE,
             ft.colors.RED,
             ft.colors.TEAL,
-            ft.colors.YELLOW,
         ]
         return colors_lookup[hash(user_name) % len(colors_lookup)]
 
@@ -68,6 +67,7 @@ def main(page: ft.Page):
         max_lines=5,
         filled=True,
         expand=True,
+        on_submit=lambda e: send_click(e),
     )
 
     # Joining the chat function
