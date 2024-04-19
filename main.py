@@ -107,14 +107,14 @@ def main(page: ft.Page):
         page.update()
 
         # Generate response back from the prompt
-        thread, run = languageTutor.create_thread_and_run(prompt)
-        run = languageTutor.wait_on_run(run, thread)
+        run = languageTutor.create_run(prompt)
+        run = languageTutor.wait_on_run(run)
 
         #create a new user Message from entered prompt
-        userRole, userMsg = languageTutor.get_userMsg(languageTutor.get_messages(thread))
+        userRole, userMsg = languageTutor.get_userMsg(languageTutor.get_messages())
         userMessage = Message(userRole, userMsg)
         #create a new assistant Message
-        assistRole, assistMsg = languageTutor.get_assistMsg(languageTutor.get_messages(thread))
+        assistRole, assistMsg = languageTutor.get_assistMsg(languageTutor.get_messages())
         assistMessage = Message(assistRole, assistMsg)
         #add user Message to chat
         userChat = ChatMessage(userMessage)

@@ -11,6 +11,8 @@ class TutorAssistant:
     def __init__(self):  
         # Hardcoded ids created previously
         self.assistant_id = "asst_gunNdPVu1FxCBxklTFA8EVq5"
+        thread= client.beta.threads.create()
+        self.thread_id = thread.id
 
 
         '''
@@ -60,30 +62,29 @@ class TutorAssistant:
         '''
 
     # Retrieve prompt/content from user and generate a response
-    def submit_prompt(self, thread, prompt):
+    def submit_prompt(self, prompt):
         
         # Create a message to append to the thread
         client.beta.threads.messages.create(
-            thread_id=thread.id,
+            thread_id=self.thread_id,
             role="user",
             content=prompt
         )
 
         # Execute the run
         return client.beta.threads.runs.create(
-            thread_id=thread.id,
+            thread_id=self.thread_id,
             assistant_id=self.assistant_id,
         )
 
     # Creates a new thread and run
-    def create_thread_and_run(self, user_input):
-        thread = client.beta.threads.create()
-        run = self.submit_prompt(thread, user_input)
-        return thread, run
+    def create_run(self, user_input):
+        run = self.submit_prompt(user_input)
+        return run
 
     # Returns the list of Messages in a Thread
-    def get_messages(self, thread):
-        return client.beta.threads.messages.list(thread_id=thread.id, order="asc")
+    def get_messages(self):
+        return client.beta.threads.messages.list(thread_id=self.thread_id, order="desc", limit=1)
     
     # Print the user's role with their prompt and the assistant's role with the response
     def pretty_print(self, messages):
@@ -103,7 +104,7 @@ class TutorAssistant:
             if m.role == "user":
                 role += "You"
                 message += f"{m.content[0].text.value}"
-        return role, message
+                return role, message
     
     # Return the role and message of the assistant
     def get_assistMsg(self, messages):
@@ -113,18 +114,18 @@ class TutorAssistant:
             if m.role == "assistant":
                 role += "Assistant"
                 message += f"{m.content[0].text.value}"
-        return role, message
+                return role, message
 
     # Tells if the Assistant has completed processing the request
-    def wait_on_run(self, run, thread):
+    def wait_on_run(self, run):
         while run.status == "queued" or run.status == "in_progress":
             run = client.beta.threads.runs.retrieve(
-                thread_id=thread.id,
+                thread_id=self.thread_id,
                 run_id=run.id,
             )
             time.sleep(0.5)
         return run
 
     # Return the chat messages of the user's prompt and the Assistant's response
-    def get_response(self, thread):
-        return self.pretty_print(self.get_messages(thread))
+    def get_response(self):
+        return self.pretty_print(self.get_messages())
