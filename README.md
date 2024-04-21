@@ -8,7 +8,7 @@ This project is an OpenAI-powered chatbot designed to assist users in learning n
 
 - **Interactive Exercises**: The chatbot provides interactive exercises to help the user practice the language. These exercises are designed to be engaging and fun, making the learning process more enjoyable.
 
-- **Language Proficiency Tracking**: The chatbot keeps a record of the user's language proficiency. This allows the user to see their progress and helps the chatbot adjust the curriculum and exercises to the user's level.
+- **Language Proficiency Tracking**: The chatbot tracks the user's language proficiency through conversation history. This allows the user to visualize their progress and helps the chatbot adjust the curriculum and exercises to the user's level.
 
 ## How to Use
 
