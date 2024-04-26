@@ -106,19 +106,20 @@ def main(page: ft.Page):
         new_message.disabled = True
         page.update()
 
-        # Generate response back from the prompt
-        run = languageTutor.create_run(prompt)
-        run = languageTutor.wait_on_run(run)
-
         #create a new user Message from entered prompt
-        userRole, userMsg = languageTutor.get_userMsg(languageTutor.get_messages())
-        userMessage = Message(userRole, userMsg)
-        #create a new assistant Message
-        assistRole, assistMsg = languageTutor.get_assistMsg(languageTutor.get_messages())
-        assistMessage = Message(assistRole, assistMsg)
+        userMessage = Message("You", prompt)
         #add user Message to chat
         userChat = ChatMessage(userMessage)
         chat.controls.append(userChat)
+        page.update()
+
+        # Generate response back from the prompt
+        run = languageTutor.create_run(prompt)
+        run = languageTutor.wait_on_run(run)
+        
+        #create a new assistant Message
+        assistRole, assistMsg = languageTutor.get_assistMsg(languageTutor.get_messages())
+        assistMessage = Message(assistRole, assistMsg)
         #add assistant Message to chat
         assistChat = ChatMessage(assistMessage)
         chat.controls.append(assistChat)
