@@ -55,7 +55,6 @@ class TutorAssistant:
         print(tutor_assistant.id)
 
         # Create thread
-        # thread ID: thread_7EcmmSbdRJCxtTb3z5TOWWJ8
         thread= client.beta.threads.create()
         self.thread_id = thread.id
         print(thread.id)
@@ -77,7 +76,7 @@ class TutorAssistant:
             assistant_id=self.assistant_id,
         )
 
-    # Creates a new thread and run
+    # Creates a new run
     def create_run(self, user_input):
         run = self.submit_prompt(user_input)
         return run
@@ -95,16 +94,6 @@ class TutorAssistant:
             else:
                 result += f"Assistant: {m.content[0].text.value}\n"
         return result
-    
-    # Return the role and message of the user
-    def get_userMsg(self, messages):
-        role = ""
-        message = ""
-        for m in messages:
-            if m.role == "user":
-                role += "You"
-                message += f"{m.content[0].text.value}"
-                return role, message
     
     # Return the role and message of the assistant
     def get_assistMsg(self, messages):
