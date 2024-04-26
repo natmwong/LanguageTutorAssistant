@@ -8,7 +8,7 @@ This project is an OpenAI-powered chatbot designed to assist users in learning n
 
 - **Interactive Exercises**: The chatbot provides interactive exercises to help the user practice the language. These exercises are designed to be engaging and fun, making the learning process more enjoyable.
 
-- **Language Proficiency Tracking**: The chatbot keeps a record of the user's language proficiency. This allows the user to see their progress and helps the chatbot adjust the curriculum and exercises to the user's level.
+- **Language Proficiency Tracking**: The chatbot tracks the user's language proficiency through conversation history. This allows the user to visualize their progress and helps the chatbot adjust the curriculum and exercises to the user's level.
 
 ## How to Use
 
@@ -18,6 +18,10 @@ To use the Language Tutor Assistant, simply start a conversation with the chatbo
 
 Here is a walkthrough of implemented stories:
 
+<img src='https://github.com/natmwong/LanguageTutorAssistant/blob/main/LanguageTutorAssistantDemo.gif' title='Video Walkthrough' width='600' alt='Video Walkthrough' />
+
+GIF created with [ScreenToGif](https://www.screentogif.com/) for Windows
+
 ## Future Improvements
 
 We are constantly working to improve the Language Tutor Assistant. Future improvements include file retrieval study material, improving the accuracy of language proficiency tracking, and adding more user preferences.
@@ -25,6 +29,8 @@ We are constantly working to improve the Language Tutor Assistant. Future improv
 ## Notes
 
 There was a fair bit of difficulty for me to figure out how to access the user and assistant messages separately so they could be displayed on the chat page. I figured I would have to create two functions: 1) get_userMsg() and 2) get_assistMsg(). These functions would allow me to retrieve the role and text held in those Messages and display them on the UI.
+
+Another challenge in developing this project was prompt engineering. Generating the proper responses that the user would need for language learning requires delicate formulation of the instructions given to the Assistant to carry out.
 
 ## License
 
